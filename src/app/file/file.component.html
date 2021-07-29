@@ -1,0 +1,149 @@
+<div class="customers view indent">
+  <div class="container">
+    <header>
+      <h3>
+        <span class="glyphicon glyphicon-file"></span> Specify file to compare
+      </h3>
+    </header>
+    <br />
+    <div class="row">
+      <div class="col-md-10">
+        <form class="login-form" [formGroup]="fileUploadForm" novalidate>
+          <div class="login">
+            <div class="row">
+              <div class="col-md-3">Select File 1:</div>
+              <div class="col-md-9">
+                <input
+                  type="file"
+                  class="form-control firstFile"
+                  formControlName="firstFile"
+                  (change)="onSelectedFile($event)"
+                  accept=".csv"
+                />
+                <div
+                  class="alert alert-danger"
+                  [hidden]="
+                    fileUploadForm.controls.firstFile.untouched ||
+                    fileUploadForm.controls.firstFile.valid
+                  "
+                >
+                  A first file upload is required.
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col-md-3">Select File 2:</div>
+              <div class="col-md-9">
+                <input
+                  type="file"
+                  class="form-control secondFile"
+                  formControlName="secondFile"
+                  id="secondFile"
+                  (change)="onSelectedFile($event)"
+                  accept=".csv"
+                />
+                <div
+                  class="alert alert-danger"
+                  [hidden]="
+                    fileUploadForm.controls.secondFile.untouched ||
+                    fileUploadForm.controls.secondFile.valid
+                  "
+                >
+                  A second file upload is required
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="row" *ngIf="!(currentFiles.length > 2)">
+              <div class="pull-right">
+                <button
+                  type="submit"
+                  class="btn btn-success"
+                  id="compareBtn"
+                  (click)="compareFile()"
+                  [disabled]="currentFiles.length !== 2"
+                >
+                  Compare
+                </button>
+              </div>
+            </div>
+            <br />
+            <div class="alert alert-danger" *ngIf="currentFiles.length > 2">
+              You can only upload two files at a time. Please drop the other
+              files using the below menu
+            </div>
+            <br />
+            <div class="card" *ngIf="currentFiles.length > 2">
+              <div class="card-body">
+                <h4 class="card-title text-center">
+                  Remove some files to continue
+                </h4>
+                <hr />
+                <div class="table-responsive">
+                  <table id="faqs" class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Uploaded File Name</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let file of currentFiles; index as i">
+                        <td class="text-warning mt-10">
+                          {{ file.name }}<i class="fa fa-arrow-up"></i>
+                        </td>
+                        <td class="mt-10">
+                          <button
+                            class="badge badge-danger"
+                            (click)="deleteFile(i)"
+                          >
+                            <i class="glyphicon glyphicon-trash"></i> Delete
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="statusRow">
+              <br />
+              <!-- <div class="label label-important" *ngIf="errorMessage">
+                                    <span class="glyphicon glyphicon-thumbs-down icon-white"></span>&nbsp;&nbsp;Error: {{ errorMessage }}
+                                </div> -->
+            </div>
+          </div>
+          <br />
+          <div *ngIf="!(currentFiles.length > 2)">
+            <app-file-details [files]="filesDetails"></app-file-details>
+          </div>
+
+          <br />
+          <div class="row">
+            <div class="pull-left">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="unmatchFileRecords()"
+                id="unmatchBtn"
+                *ngIf="currentFiles.length == 2 && filesDetails.length == 2"
+              >
+                Unmatched Report
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <header *ngIf="filesUnmatchedDetails.length > 0">
+    <span class="glyphicon glyphicon-file"></span> Comparison results
+  </header>
+
+  <app-file-details-grid
+    [unmatachFilesRecords]="filesUnmatchedDetails"
+  ></app-file-details-grid>
+</div>

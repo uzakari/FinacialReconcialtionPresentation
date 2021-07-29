@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row card-container">
+    <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let file of files">
+      <div class="card">
+        <div class="card-header">
+          <a class="white">
+            {{ file?.fileName }}
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="clearfix">
+            <div class="pull-left card-body-left">
+              <img src="assets/images/fileIcon2.png" class="card-image" />
+            </div>
+            <div class="pull-left card-body-right">
+              <div class="card-body-content">
+                Total Records: {{ file?.totalRecords }} Matching Records:
+                {{ file?.matchingRecords }} Unmatching Record:
+                {{ file?.unmatchingRecords }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div *ngIf="!files.length">
+            No File Details Records Found
+        </div> -->
+  </div>
+</div>
