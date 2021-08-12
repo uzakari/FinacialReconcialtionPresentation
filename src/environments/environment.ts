@@ -7,7 +7,7 @@ export const environment = {
 
   ExternalService: {
     FileService: {
-      baseUrl: "http://tutuka-reconcilation.somee.com/",
+      baseUrl: "https://tutuka-reconcilation.somee.com/",
     }
   }
 };
